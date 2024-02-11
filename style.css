@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input:invalid {
+  border-color: red;
+}
+
+body {
+  font-family: Calibri, sans-serif;
+  color: white;
+  background-color: rgb(17, 17, 17);
+}
