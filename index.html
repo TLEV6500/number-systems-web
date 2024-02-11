@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Systems Tools</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="index.js" defer></script>
+</head>
+
+<body>
+  <h1 class="main-title">Number System Tools</h1>
+  <section class="converter">
+    <h2>Converter</h2>
+    <div class="converter-body">
+      <label>
+        <p>Input Number:</p>
+        <input type="text" name="fromNumber" id="converter_fromNumber" value="0" pattern="\w+">
+      </label>
+      <label>
+        <p>From Base:</p>
+        <input type="number" name="fromBase" id="converter_fromBase" value="10">
+      </label>
+      <label>
+        <p>To Base:</p>
+        <input type="number" name="toBase" id="converter_toBase" value="2">
+      </label>
+      <br>
+      <label>
+        <p>Output Number:</p>
+        <input type="text" name="toNumber" id="converter_toNumber" disabled>
+      </label>
+    </div>
+    <h2>Conversion History</h2>
+    <div class="converter-history">
+      ...
+    </div>
+  </section>
+</body>
+
+</html>
