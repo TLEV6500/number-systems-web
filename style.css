@@ -12,4 +12,35 @@ body {
   font-family: Calibri, sans-serif;
   color: white;
   background-color: rgb(17, 17, 17);
+  margin: 2rem 4rem;
+}
+
+.heading {
+  margin-bottom: 2rem;
+
+  &>* {
+    display: inline;
+  }
+}
+
+.converter-body {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.converter-body label {
+  text-align: center;
+}
+
+.converter-body input {
+  /* height: 3rem; */
+  width: 90%;
+  font-size: 3em;
+}
+
+.converter-body p {
+  text-align: center;
+  margin-bottom: .4em;
 }
