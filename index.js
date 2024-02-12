@@ -11,6 +11,15 @@ function letterToDigits(l) {
   return x.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0) + 10;
 }
 
+function inputPatternIfBase(base) {
+  if (base < 10) return `[0-${base - 1}]\d+`;
+  else if (base === 10) return '\d+';
+  else {
+    const l = digitsToLetter(base - 1);
+    return `[a-${l.toLowerCase()}A-${l}]\w*|\d+`
+  }
+}
+
 const calculatorHTML = {
   input: document.querySelector('#converter_fromNumber'),
   fromBase: document.querySelector('#converter_fromBase'),
@@ -18,11 +27,38 @@ const calculatorHTML = {
   output: document.querySelector('#converter_toNumber'),
 }
 
+const keys = Object.keys(calculatorHTML);
+
 const calculator = {
-  input: calculatorHTML.input.value,
-  fromBase: Number(calculatorHTML.fromBase.value),
-  toBase: Number(calculatorHTML.toBase.value),
-  output: null,
+  _input: calculatorHTML.input.value,
+  _fromBase: Number(calculatorHTML.fromBase.value),
+  _toBase: Number(calculatorHTML.toBase.value),
+  _output: null,
+  set input(inputVal) {
+    this._input = inputVal;
+  },
+  set fromBase(base) {
+    calculatorHTML.input.pattern = inputPatternIfBase(base);
+    this._fromBase = base;
+  },
+  set toBase(base) {
+    this._toBase = base;
+  },
+  set output(outputVal) {
+    this._output = outputVal;
+  },
+  get input() {
+    return this._input;
+  },
+  get fromBase() {
+    return this._fromBase;
+  },
+  get toBase() {
+    return this._toBase;
+  },
+  get output() {
+    return this._output;
+  },
 }
 
 function convertDecToBaseN(num, base) {
@@ -86,7 +122,7 @@ calculatorHTML.reCalc = (obj) => {
   const { input, fromBase, toBase } = obj;
   const output = calculateUsingSetValuesInCalculator(input, fromBase, toBase);
   obj.output = output;
-  for (const key in calculator) {
+  for (const key of keys) {
     updateCalculatorHTML(key, obj[key]);
   }
   return output;
@@ -103,7 +139,7 @@ function keyInputHandler(e, prop) {
   }
 }
 
-for (const key in calculator) {
+for (const key of keys) {
   calculatorHTML[key].addEventListener('keyup', (e) => keyInputHandler(e, key));
 }
 
