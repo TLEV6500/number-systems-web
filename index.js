@@ -34,11 +34,16 @@ const calculator = {
   _fromBase: Number(calculatorHTML.fromBase.value),
   _toBase: Number(calculatorHTML.toBase.value),
   _output: null,
+  _pattern: calculatorHTML.input.pattern,
+  set pattern(base) {
+    this._pattern = inputPatternIfBase(base);
+  },
   set input(inputVal) {
     this._input = inputVal;
   },
   set fromBase(base) {
-    calculatorHTML.input.pattern = inputPatternIfBase(base);
+    calculator.pattern = base;
+    calculatorHTML.input.pattern = calculator.pattern;
     this._fromBase = base;
   },
   set toBase(base) {
@@ -46,6 +51,9 @@ const calculator = {
   },
   set output(outputVal) {
     this._output = outputVal;
+  },
+  get pattern() {
+    return this._pattern;
   },
   get input() {
     return this._input;
@@ -98,6 +106,7 @@ function calculateUsingSetValuesInCalculator(input = calculator.input, fromBase 
 
 function updateCalculator(key, val) {
   if ((key && val === null) || (key && val === undefined)) return val;
+  if (key === 'fromBase') calculator.pattern = val;
   calculator[key] = val;
   return val;
 }
@@ -128,13 +137,21 @@ calculatorHTML.reCalc = (obj) => {
   return output;
 };
 
+// let obj = {};
 function keyInputHandler(e, prop) {
+  // if (keys.includes(prop)) obj[prop] = '' + e.target.value;
   if (e.key === "Enter") {
     let obj = {};
     obj[prop] = '' + e.target.value;
     calculatorHTML.reCalc(obj);
   }
-  else if (e.target.value.search(/w/)) {
+  else if (prop === 'input') {
+    if (e.target.value.search(calculator.pattern)) {
+      updateCalculator(prop, '' + e.target.value);
+    }
+    else e.preventDefault();
+  }
+  else if (e.target.value.search(/\w+/)) {
     updateCalculator(prop, '' + e.target.value);
   }
 }
