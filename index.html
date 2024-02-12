@@ -10,32 +10,36 @@
 </head>
 
 <body>
-  <h1 class="main-title">Number System Tools</h1>
+  <div class="heading">
+    <h1 class="main-title">Number System Tools</h1>
+    <h6 class="attribution">by TLEV</h6>
+  </div>
   <section class="converter">
     <h2>Converter</h2>
     <div class="converter-body">
       <label>
-        <p>Input Number:</p>
-        <input type="text" name="fromNumber" id="converter_fromNumber" value="0" pattern="\w+">
+        <p>Input Number</p>
+        <input type="text" name="fromNumber" id="converter_fromNumber" value="0" pattern="\d+">
       </label>
       <label>
-        <p>From Base:</p>
-        <input type="number" name="fromBase" id="converter_fromBase" value="10">
+        <p>From Base</p>
+        <input type="number" name="fromBase" id="converter_fromBase" value="10" min="1" max="35">
       </label>
       <label>
-        <p>To Base:</p>
-        <input type="number" name="toBase" id="converter_toBase" value="2">
+        <p>To Base</p>
+        <input type="number" name="toBase" id="converter_toBase" value="2" min="1" max="35">
       </label>
-      <br>
       <label>
-        <p>Output Number:</p>
+        <p>Output Number</p>
         <input type="text" name="toNumber" id="converter_toNumber" disabled>
       </label>
     </div>
-    <h2>Conversion History</h2>
+
+
+    <!-- <h2>Conversion History</h2>
     <div class="converter-history">
       ...
-    </div>
+    </div> -->
   </section>
 </body>
 
