@@ -12,11 +12,11 @@ function letterToDigits(l) {
 }
 
 function inputPatternIfBase(base) {
-  if (base < 10) return `[0-${base - 1}]\d+`;
-  else if (base === 10) return '\d+';
+  if (base < 10) return `[0-${base - 1}]\\d+`;
+  else if (base === 10) return '\\d+';
   else {
     const l = digitsToLetter(base - 1);
-    return `[a-${l.toLowerCase()}A-${l}]\w*|\d+`
+    return `[a-${l.toLowerCase()}A-${l}]\\w*|\\d+`
   }
 }
 
