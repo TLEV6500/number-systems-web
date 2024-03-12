@@ -10,7 +10,7 @@ function calculatorInputHandler(e, id, calcInstance) {
   if (e.key === null || e.target.value === null) return;
   const isBaseInput = id.includes('Base');
   const isValidSubmitKey = e.key === 'Enter' || e.key === 'Tab';
-  if (!isValidSubmitKey && ((isBaseInput && e.key.search(/\d+/) === -1) || (!isBaseInput && e.key.search(calcInstance.numberPattern) === -1))) {
+  if (!isValidSubmitKey && isBaseInput && !!(e.key.search(/\d+/) + 1) || !isValidSubmitKey && !isBaseInput && !!(e.key.search(calcInstance.numberPattern) + 1)) {
     e.preventDefault();
     return;
   }
