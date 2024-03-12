@@ -38,6 +38,7 @@ body {
   /* height: 3rem; */
   width: 90%;
   font-size: 3em;
+  overflow: visible;
 }
 
 .converter-body p {

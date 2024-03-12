@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Number Systems Tools</title>
   <link rel="stylesheet" href="style.css">
-  <script src="index.js" defer></script>
+  <script type="module" src="index1.js" crossorigin="" defer></script>
 </head>
 
 <body>
@@ -14,33 +14,42 @@
     <h1 class="main-title">Number System Tools</h1>
     <h6 class="attribution">by TLEV</h6>
   </div>
-  <section class="converter">
-    <h2>Converter</h2>
-    <div class="converter-body">
-      <label>
-        <p>Input Number</p>
-        <input type="text" name="fromNumber" id="converter_fromNumber" value="0" pattern="\d+">
-      </label>
-      <label>
-        <p>From Base</p>
-        <input type="number" name="fromBase" id="converter_fromBase" value="10" min="1" max="35">
-      </label>
-      <label>
-        <p>To Base</p>
-        <input type="number" name="toBase" id="converter_toBase" value="2" min="1" max="35">
-      </label>
-      <label>
-        <p>Output Number</p>
-        <input type="text" name="toNumber" id="converter_toNumber" disabled>
-      </label>
-    </div>
-
+  <h2 id="converter-start">Converter</h2>
+  <section id="calculator">
 
     <!-- <h2>Conversion History</h2>
     <div class="converter-history">
       ...
     </div> -->
   </section>
+
+  <!-- <datalist id="common_bases">
+    <option value="2"></option>
+    <option value="8"></option>
+    <option value="10"></option>
+    <option value="16"></option>
+  </datalist> -->
+
+  <template id="calculator_instance_template">
+    <div class="converter-body">
+      <label>
+        <p>Input Number</p>
+        <input type="text" name="fromNumber" id="converter_fromNumber" pattern="\d+" value>
+      </label>
+      <label>
+        <p>From Base</p>
+        <input type="number" name="fromBase" id="converter_fromBase" min="1" max="35" list="common_bases" value>
+      </label>
+      <label>
+        <p>To Base</p>
+        <input type="number" name="toBase" id="converter_toBase" min="1" max="35" list="common_bases" value>
+      </label>
+      <label>
+        <p>Output Number</p>
+        <input type="text" name="toNumber" id="converter_toNumber" value disabled>
+      </label>
+    </div>
+  </template>
 </body>
 
 </html>
