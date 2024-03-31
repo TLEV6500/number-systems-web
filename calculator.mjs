@@ -1,33 +1,43 @@
 import { createHTMLTemplateInstance, editHTMLElement, getExistingHTMLElement, insertHTMLElement } from "./htmlInterface.mjs";
 
-
+// Defining globals
 let calcInstanceCounts = 0;
-const calculatorInputIds = new Set(['fromNumber', 'fromBase', 'toBase', 'toNumber']);
+const CALCULATORINPUTIDS = new Set(['fromNumber', 'fromBase', 'toBase', 'toNumber']);
+const SPECIALKEYS = new Set(['Backspace', 'Delete', 'Shift', 'Tab', 'Control']);
+const isSpecialKey = (e) => e.ctrlKey || e.shiftKey || SPECIALKEYS.has(e.key);
+const isValidSubmitKey = (e) => e.key === 'Enter' || e.key === 'Tab';
 
-// FIX: When toBase (and maybe even fromBase) is 1, an infinite loop occurs at one of the conversion functions
+// DO: Check if Fn key inputs are ignored or not
 // ADD: Visually indicate that the user needs to press enter if they still haven't for toBase and fromBase
-function calculatorInputHandler(e, id, calcInstance) {
-  if (e.key === null || e.target.value === null) return;
-  const isBaseInput = id.includes('Base');
-  const isValidSubmitKey = e.key === 'Enter' || e.key === 'Tab';
-  if (!isValidSubmitKey && isBaseInput && !!(e.key.search(/\d+/) + 1) || !isValidSubmitKey && !isBaseInput && !!(e.key.search(calcInstance.numberPattern) + 1)) {
-    e.preventDefault();
-    return;
-  }
-  else if (isValidSubmitKey || !isBaseInput) {
+function calcBaseInputHandler(e, id, calcInstance) {
+  if (e.key === null || e.target.value === null || e.repeat) return;
+  if (!isSpecialKey(e) && !isValidSubmitKey(e) && (e.key.search(/\d+/) === -1)) e.preventDefault();
+  else if (isValidSubmitKey(e)) {
+    console.log('calcBaseInputHandler>>', e.target.value);
     calcInstance[id] = e.target.value;
     calcInstance.convert();
-    return;
   }
+  return;
 }
 
-//!A(BC+!BD) = !A(B)
+// FIX: Spaces and other invalid inputs for given base is still accepted and messes up calc
+// FIX: Multi-digit hex numbers aren't converted correctly or at all.
+function calcFromNumInputHandler(e, id, calcInstance) {
+  if (e.key === null || e.target.value === null || e.repeat) return;
+  const isValidInputNumber = e.key.search(calcInstance.numberPattern) !== -1;
+  if (!isSpecialKey(e) && !isValidInputNumber) e.preventDefault();
+  else if (isValidInputNumber) {
+    console.log('calcFromNumInputHandler>>', e.target.value);
+    calcInstance[id] = e.target.value;
+    calcInstance.convert();
+  }
+}
 
 function createCalculatorHTML(calcInstance) {
   const instance = createHTMLTemplateInstance(getExistingHTMLElement('#calculator_instance_template'));
   const target = getExistingHTMLElement('#calculator');
   const HTMLRef = { base: instance };
-  for (const id of calculatorInputIds) {
+  for (const id of CALCULATORINPUTIDS) {
     HTMLRef[id] = getExistingHTMLElement(`#converter_${id}`, instance);
     HTMLRef[id].id += '_' + calcInstanceCounts;
     HTMLRef[id].value = calcInstance[id];
@@ -45,14 +55,19 @@ class calculator {
     this._toBase = toBase + '';
     this._toNumber = '0';
     this.HTMLRef = createCalculatorHTML(this);
-    this._numberPattern = '\\d+';
+    this._numberPattern = '^\\d+$';
     this.#initializeEventListeners();
   }
 
   #initializeEventListeners() {
-    for (const id of calculatorInputIds) {
-      this.HTMLRef[id].addEventListener(id.includes('Base') ? 'keypress' : 'keyup', (e) => calculatorInputHandler(e, id, this));
-    }
+    // for (const id of CALCULATORINPUTIDS) {
+    //   this.HTMLRef[id].addEventListener('keydown', (e) => calcFromNumInputHandler(e, id, this));
+    //   this.HTMLRef[id].addEventListener('keyup', (e) => calcFromNumInputHandler(e, id, this));
+    // }
+
+    this.HTMLRef.fromBase.addEventListener('keydown', (e) => calcBaseInputHandler(e, 'fromBase', this));
+    this.HTMLRef.toBase.addEventListener('keydown', (e) => calcBaseInputHandler(e, 'toBase', this));
+    this.HTMLRef.fromNumber.addEventListener('keyup', (e) => calcFromNumInputHandler(e, 'fromNumber', this));
     return;
   }
 
@@ -79,10 +94,10 @@ class calculator {
   #inputPatternIfBase(base) {
     if (base <= 0 || base == 10) return '\\d+';
     const b = Number(base);
-    if (b === 1) return '1+';
-    else if (b < 10) return `[0-${b - 1}]`;
+    if (b === 1) return '^1+$';
+    else if (b < 10) return `^[0-${b - 1}]+$`;
     const l = this.digitsToLetter(b - 1);
-    return `[a-${l.toLowerCase()}A-${l}]\\w*|\\d+`;
+    return `^[a-${l.toLowerCase()}A-${l}\d]+$`;
   }
 
   #convertDecToBaseN(num, base) {
@@ -91,7 +106,8 @@ class calculator {
     if (b === 10 || q === 0) return q.toString();
     let r = null;
     let ans = '';
-    while (q >= 1) {
+    if (b === 1) ans = ans.padEnd(q, '1');
+    else while (q >= 1) {
       r = q % b;
       q = Math.floor(q / b);
       ans = this.digitsToLetter(r) + ans;
