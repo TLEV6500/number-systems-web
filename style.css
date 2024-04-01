@@ -67,7 +67,7 @@ footer {
 }
 
 .coming-soon {
-  display: block;
+  /* display: none; */
   position: relative;
   border-radius: 1rem;
   border: 2px dashed lightgray;
