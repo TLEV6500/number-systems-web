@@ -17,8 +17,9 @@
   <h2 id="converter-start">Converter</h2>
   <!-- id="calculator" is important for JS insertion of calculator instances -->
   <section id="calculator">
+    <!-- calculators are inserted here -->
   </section>
-  <button id="add_calc">Add Calculator</button>
+  <!-- <button id="add_calc">Add Calculator</button> -->
   <!-- 
     <h2>Conversion History</h2>
     <div class="converter-history">
@@ -33,8 +34,8 @@
     <option value="16"></option>
   </datalist> -->
 
-  <template id="calculator_instance_template">
-    <div class="converter-body">
+  <template id="converter_instance_template">
+    <div class="calculator converter-body">
       <label>
         <p>Input Number</p>
         <input type="text" name="fromNumber" id="converter_fromNumber" pattern="\d+" value>
@@ -54,6 +55,37 @@
     </div>
   </template>
 
+  <template id="binary_arithmetic_instance_template">
+    <div class="calculator binary-arithmetic_body">
+      <label>
+        <p>Base</p>
+        <input type="number" name="base" id="binaryArithmetic_base" min="1" max="35" value>
+      </label>
+      <label>
+        <p>Operand A</p>
+        <input type="text" name="operand1" id="binaryArithmetic_operand1" pattern="\d+" value>
+      </label>
+      <label>
+        <p>Operation</p>
+        <select name="operation" id="binaryArithmetic_operand1">
+          <option value="add">+</option>
+          <option value="subtract">-</option>
+          <option value="multiply">×</option>
+          <option value="divide">÷</option>
+        </select>
+      </label>
+      <label>
+        <p>Operand B</p>
+        <input type="text" name="operand2" id="binaryArithmetic_operand2" pattern="\d+" value>
+      </label>
+      <p class="symbol-equals">=</p>
+      <label>
+        <p>Output Number</p>
+        <input type="text" name="toNumber" id="converter_toNumber" value disabled>
+      </label>
+    </div>
+  </template>
+
   <template id="modal_instance_template">
     <div id="modal_x_wrapper">
       <div id="modal_x_title"></div>
@@ -62,12 +94,18 @@
     </div>
   </template>
 
-  <temp id="modal_body_template_addCalc">
+  <template id="modal_body_template_addCalc">
     <div id="modal_body_addCalc_temp">
       <button id="btn_add_converter">Add Base Converter</button>
       <button id="btn_add_arithmetic_calc">Add Arithmetic Calculator</button>
     </div>
-  </temp>
+  </template>
 </body>
 
 </html>
+
+<!-- 
+  TO-DO
+  - Add Binary Arithmetic Calculator (Two operands of any base for arithmetic operations)
+  - Add Radix Complement Calculator (R's & R-1's)
+ -->

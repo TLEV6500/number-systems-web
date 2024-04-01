@@ -23,25 +23,30 @@ body {
   }
 }
 
-.converter-body {
+.calculator {
   display: flex;
   justify-content: space-around;
   gap: 2rem;
-  margin-bottom: 1rem;
 }
 
-.converter-body label {
+.calculator label {
   text-align: center;
 }
 
-.converter-body input {
+.calculator input {
   /* height: 3rem; */
   width: 90%;
   font-size: 3em;
   overflow: visible;
 }
 
-.converter-body p {
+.calculator p {
   text-align: center;
   margin-bottom: .4em;
+}
+
+.input-hint-perm {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }

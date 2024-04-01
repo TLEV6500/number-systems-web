@@ -28,4 +28,4 @@ function createHTMLTemplateInstance(templateElement) {
 }
 
 
-export { createHTMLElement, editHTMLElement, insertHTMLElement, getExistingHTMLElement, createHTMLTemplateInstance, createModalHTML };
+export { createHTMLElement, editHTMLElement, insertHTMLElement, getExistingHTMLElement, createHTMLTemplateInstance };
