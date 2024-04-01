@@ -65,3 +65,20 @@ footer {
   font-size: .8rem;
   text-align: center;
 }
+
+.coming-soon {
+  display: block;
+  position: relative;
+  border-radius: 1rem;
+  border: 2px dashed lightgray;
+  height: 6rem;
+  padding: 1rem;
+  color: lightgray;
+  font-size: 2rem;
+  text-align: center;
+
+  &:hover {
+    color: white;
+    background: rgba(211, 211, 211, 0.15);
+  }
+}
