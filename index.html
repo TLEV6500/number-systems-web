@@ -15,13 +15,16 @@
     <h6 class="attribution">by TLEV</h6>
   </div>
   <h2 id="converter-start">Converter</h2>
+  <!-- id="calculator" is important for JS insertion of calculator instances -->
   <section id="calculator">
-
-    <!-- <h2>Conversion History</h2>
+  </section>
+  <button id="add_calc">Add Calculator</button>
+  <!-- 
+    <h2>Conversion History</h2>
     <div class="converter-history">
       ...
-    </div> -->
-  </section>
+    </div> 
+  -->
 
   <!-- <datalist id="common_bases">
     <option value="2"></option>
@@ -50,6 +53,21 @@
       </label>
     </div>
   </template>
+
+  <template id="modal_instance_template">
+    <div id="modal_x_wrapper">
+      <div id="modal_x_title"></div>
+      <div id="modal_x_body"></div>
+      <div id="modal_x_footer"></div>
+    </div>
+  </template>
+
+  <temp id="modal_body_template_addCalc">
+    <div id="modal_body_addCalc_temp">
+      <button id="btn_add_converter">Add Base Converter</button>
+      <button id="btn_add_arithmetic_calc">Add Arithmetic Calculator</button>
+    </div>
+  </temp>
 </body>
 
 </html>

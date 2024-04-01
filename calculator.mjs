@@ -43,6 +43,7 @@ function createCalculatorHTML(calcInstance) {
     HTMLRef[id].value = calcInstance[id];
   }
   ++calcInstanceCounts;
+  // Insert calculator instance as the last child of #calculator element
   insertHTMLElement(instance, target, 2);
   return HTMLRef;
 }
