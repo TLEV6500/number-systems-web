@@ -5,6 +5,7 @@
 }
 
 input:invalid {
+  background: rgb(255, 223, 228);
   border-color: red;
 }
 
@@ -57,7 +58,7 @@ body {
 
 footer {
   display: block;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -66,8 +67,30 @@ footer {
   text-align: center;
 }
 
-.coming-soon {
+#add_calc {
   /* display: none; */
+  position: relative;
+  border-radius: 1rem;
+  border: 2px dashed lightgray;
+  height: 6rem;
+  width: 100%;
+  color: lightgray;
+  font-size: 2rem;
+  background: rgb(17, 17, 17);
+  vertical-align: middle;
+
+  & .icon {
+    font-size: 4rem;
+  }
+
+  &:hover {
+    color: white;
+    background: rgba(211, 211, 211, 0.15);
+  }
+}
+
+.coming-soon {
+  display: none;
   position: relative;
   border-radius: 1rem;
   border: 2px dashed lightgray;

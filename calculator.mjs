@@ -5,7 +5,7 @@ let converterInstanceCounts = 0;
 const CONVERTER_IO_IDS = new Set(['fromNumber', 'fromBase', 'toBase', 'toNumber']);
 const BINARY_ARITHMETIC_IO_IDS = new Set(['base', 'operand1', 'operand2']);
 const IO_IDS = { converter: CONVERTER_IO_IDS, binaryArithmetic: BINARY_ARITHMETIC_IO_IDS };
-const SPECIALKEYS = new Set(['Backspace', 'Delete', 'Shift', 'Tab', 'Control']);
+const SPECIALKEYS = new Set(['Backspace', 'Delete', 'Shift', 'Tab', 'Control', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft']);
 const isSpecialKey = (e) => e.ctrlKey || e.shiftKey || SPECIALKEYS.has(e.key);
 const isValidSubmitKey = (e) => e.key === 'Enter' || e.key === 'Tab';
 
@@ -15,7 +15,7 @@ function calcBaseInputHandler(e, id, calcInstance) {
   if (e.key === null || e.target.value === null || e.repeat) return;
   if (!isSpecialKey(e) && !isValidSubmitKey(e) && (e.key.search(/\d+/) === -1)) e.preventDefault();
   else if (isValidSubmitKey(e)) {
-    // console.log('calcBaseInputHandler>>', e.target.value);
+    if (e.target.value > 36) e.target.value = 36;
     calcInstance[id] = e.target.value;
     calcInstance.convert();
   }
@@ -28,7 +28,7 @@ function calcFromNumInputHandler(e, id, calcInstance) {
   if (e.key === null || e.target.value === null || e.repeat) return;
   const isValidInputNumber = e.key.search(calcInstance.numberPattern) !== -1;
   if (!isSpecialKey(e) && !isValidInputNumber) e.preventDefault();
-  else if (isValidInputNumber) {
+  else if (isValidInputNumber || isValidSubmitKey) {
     // console.log('calcFromNumInputHandler>>', e.target.value);
     calcInstance[id] = e.target.value;
     calcInstance.convert();
@@ -94,7 +94,7 @@ class Calculator {
     if (b === 1) return '^1+$';
     else if (b < 10) return `^[0-${b - 1}]+$`;
     const l = this.digitsToLetter(b - 1);
-    return `^[a-${l.toLowerCase()}A-${l}\d]+$`;
+    return `^[a-${l.toLowerCase()}A-${l}\\d]+$`;
   }
 
   set numberPattern(s) {
@@ -110,7 +110,7 @@ class Converter extends Calculator {
   constructor(fromBase, toBase) {
     super('converter');
     this.id = converterInstanceCounts;
-    this._fromNumber = '0';
+    this._fromNumber = '';
     this._fromBase = fromBase + '';
     this._toBase = toBase + '';
     this._toNumber = '0';
@@ -161,14 +161,14 @@ class Converter extends Calculator {
 
   // number: string, base: string
   formatNumber(number, base) {
-    console.log('format>>', number);
+    // console.log('format>>', number);
     const len = number.length;
     let groupings;
     if (base == 2) groupings = 4;
     else if (base > 2 && base < 16) groupings = 3;
     else if (base >= 16) groupings = 2;
     const arr = number.split('');
-    if (groupings > len) return number;
+    if (groupings >= len) return number;
     for (let i = -groupings; len + i >= 0; i -= groupings + 1) {
       arr.splice(i, 0, ' ');
     }
@@ -179,10 +179,10 @@ class Converter extends Calculator {
   convert({ fromNumber = this.fromNumber, fromBase = this.fromBase, toBase = this.toBase } = {}) {
     if (fromBase < 1 || toBase < 1) return null;
     let temp = this.#convertBaseNToDec(fromNumber, fromBase);
-    if (toBase === '1' && fromNumber === '0') temp = 0;
+    if (toBase === '1' && (fromNumber === '0' || fromNumber === '')) temp = 0;
     else if (toBase !== '10') temp = this.#convertDecToBaseN(temp, toBase);
     temp = this.formatNumber(temp, toBase);
-    console.log('convert>>', temp);
+    // console.log('convert>>', temp);
     this.updateCalc('toNumber', temp);
     return temp;
   }
@@ -197,7 +197,7 @@ class Converter extends Calculator {
     this._fromBase = val + '';
     this.numberPattern = this.inputPatternIfBase(val);
     if (this.fromBase === '1') this.#unaryInputInitializer();
-    else if (Number(this.fromNumber) >= Number(this.fromBase)) this.updateCalc('fromNumber', 0);
+    else if (Number(this.fromNumber) >= Number(this.fromBase)) this.updateCalc('fromNumber', '');
   }
   get fromBase() {
     return this._fromBase;

@@ -20,8 +20,9 @@
   <main id="calculator">
     <!-- calculators are inserted here -->
   </main>
+
+  <button id="add_calc"><span class="icon">+</span></button>
   <p class="coming-soon">WIP...Coming Soon!</p>
-  <!-- <button id="add_calc">Add Calculator</button> -->
   <!-- 
     <h2>Conversion History</h2>
     <div class="converter-history">
@@ -42,15 +43,18 @@
     <div class="calculator converter-body">
       <label>
         <p>Input Number</p>
-        <input type="text" name="fromNumber" id="converter_fromNumber" pattern="\d+" value>
+        <input type="text" name="fromNumber" id="converter_fromNumber" title="Must be a valid digit of From Base"
+          pattern="\d+" value placeholder="0">
       </label>
       <label>
         <p>From Base</p>
-        <input type="number" name="fromBase" id="converter_fromBase" min="1" max="35" list="common_bases" value>
+        <input type="number" name="fromBase" id="converter_fromBase" title="Must be a value from 1 to 36" min="1"
+          max="35" list="common_bases" value>
       </label>
       <label>
         <p>To Base</p>
-        <input type="number" name="toBase" id="converter_toBase" min="1" max="35" list="common_bases" value>
+        <input type="number" name="toBase" id="converter_toBase" title="Must be a value from 1 to 36" min="1" max="36"
+          list="common_bases" value>
       </label>
       <label>
         <p>Output Number</p>
